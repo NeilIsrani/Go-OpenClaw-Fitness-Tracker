@@ -1,0 +1,24 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+.terraform.lock.hcl
+
+# Sensitive files
+.env
+*.pem
+*.key
+
+# Go binary
+src/server
+
+# OS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+
+# Apple Health exports
+*.xml
