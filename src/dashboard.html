@@ -234,6 +234,54 @@
             } catch(err) {}
         }
 
+        // Load historical data into charts on page open
+        async function loadHistorical() {
+            try {
+                const types = [
+                    { key: 'heart_rate', chart: hrChart },
+                    { key: 'steps',      chart: stepsChart },
+                    { key: 'calories',   chart: calChart },
+                ];
+                for (const { key, chart } of types) {
+                    const resp = await fetch(`/metrics?type=${key}&limit=200`);
+                    const data = await resp.json();
+                    if (!data.records) continue;
+                    // sort ascending by timestamp
+                    data.records.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+                    for (const r of data.records) {
+                        const t = new Date(r.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+                        addDataPoint(chart, t, r.value);
+                    }
+                }
+            } catch(err) {}
+
+            // Load existing anomalies
+            try {
+                const resp = await fetch('/anomalies');
+                const data = await resp.json();
+                if (data.anomalies) {
+                    data.anomalies.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+                    data.anomalies.forEach(a => addAnomalyToList(a));
+                }
+            } catch(err) {}
+
+            // Load strain using the date of the most recent record
+            try {
+                const resp = await fetch('/metrics?type=heart_rate&limit=1');
+                const data = await resp.json();
+                if (data.records && data.records.length > 0) {
+                    const latestDate = data.records[0].timestamp.split('T')[0];
+                    const strainResp = await fetch(`/strain?date=${latestDate}`);
+                    const strain = await strainResp.json();
+                    document.getElementById('strainScore').textContent = strain.score.toFixed(1);
+                    strainChart.data.datasets[0].data = [strain.zone5_minutes, strain.zone4_minutes, strain.zone3_minutes, strain.zone2_minutes, strain.zone1_minutes];
+                    strainChart.update();
+                    document.getElementById('strainDetails').innerHTML =
+                        `Avg HR: ${strain.avg_hr} bpm | Peak HR: ${strain.max_hr} bpm | ${strain.hr_samples} samples | ${strain.workout_count} workout(s) | ${strain.calories_burned} cal`;
+                }
+            } catch(err) {}
+        }
+
         // Periodic stats refresh
         async function refreshStats() {
             try {
@@ -246,8 +294,8 @@
         }
         setInterval(refreshStats, 5000);
         setInterval(refreshStrain, 5000);
+        loadHistorical();
         refreshStats();
-        refreshStrain();
     </script>
 </body>
 </html>
