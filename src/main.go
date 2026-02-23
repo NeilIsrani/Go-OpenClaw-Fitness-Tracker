@@ -113,6 +113,9 @@ func main() {
 		})
 	})
 
+	// JSON ingest for Health Auto Export app
+	router.POST("/ingest/json", app.HandleIngestJSON)
+
 	// REST API
 	router.GET("/metrics", app.HandleGetMetrics)
 	router.GET("/metrics/stats", app.HandleGetStats)
