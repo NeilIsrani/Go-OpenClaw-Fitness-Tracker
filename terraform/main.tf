@@ -33,6 +33,7 @@ module "ecs" {
   log_group_name     = module.logging.log_group_name
   ecs_count          = var.ecs_count
   region             = var.aws_region
+  target_group_arn   = module.network.target_group_arn
 }
 
 # --- Docker Image Build & Push ---

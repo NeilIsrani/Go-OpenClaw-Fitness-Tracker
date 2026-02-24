@@ -60,3 +60,8 @@ variable "memory" {
   type        = number
   default     = 512
 }
+
+variable "target_group_arn" {
+  description = "ARN of the ALB target group to attach the service to"
+  type        = string
+}

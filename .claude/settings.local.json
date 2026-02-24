@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "Bash(/Users/neilisrani/Downloads/coachapp/terraform/modules/ecs/main.tf:*)",
+      "Bash(/Users/neilisrani/Downloads/coachapp/terraform/modules/ecs/variables.tf:*)"
     ]
   }
 }

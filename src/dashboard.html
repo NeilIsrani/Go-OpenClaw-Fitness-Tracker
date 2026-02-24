@@ -3,299 +3,315 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fitness Telemetry Dashboard</title>
+    <title>Neil's Live Fitness Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f172a; color: #e2e8f0; padding: 20px; }
-        h1 { text-align: center; margin-bottom: 20px; color: #38bdf8; font-size: 1.8rem; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 20px; margin-bottom: 20px; }
-        .card { background: #1e293b; border-radius: 12px; padding: 20px; border: 1px solid #334155; }
-        .card h2 { color: #94a3b8; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
-        .stat-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
-        .stat-box { background: #1e293b; border-radius: 12px; padding: 16px 24px; border: 1px solid #334155; text-align: center; flex: 1; min-width: 140px; }
-        .stat-box .label { color: #94a3b8; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
-        .stat-box .value { font-size: 1.8rem; font-weight: 700; color: #38bdf8; margin-top: 4px; }
-        .stat-box .value.warning { color: #fbbf24; }
-        .stat-box .value.critical { color: #ef4444; }
-        .upload-area { background: #1e293b; border: 2px dashed #475569; border-radius: 12px; padding: 40px; text-align: center; margin-bottom: 20px; cursor: pointer; transition: border-color 0.2s; }
-        .upload-area:hover { border-color: #38bdf8; }
-        .upload-area.dragover { border-color: #38bdf8; background: #1e3a5f; }
-        .upload-area input[type="file"] { display: none; }
-        .upload-area p { color: #94a3b8; margin-top: 8px; }
-        .btn { background: #2563eb; color: white; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; }
-        .btn:hover { background: #1d4ed8; }
-        .btn:disabled { background: #475569; cursor: not-allowed; }
-        .anomaly-list { max-height: 300px; overflow-y: auto; }
-        .anomaly-item { padding: 10px; border-bottom: 1px solid #334155; display: flex; justify-content: space-between; align-items: center; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #080f1a; color: #e2e8f0; padding: 24px; }
+
+        header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+        header h1 { font-size: 1.6rem; font-weight: 700; color: #38bdf8; letter-spacing: -0.5px; }
+        header h1 span { color: #38bdf8; }
+        .live-pill { display: flex; align-items: center; gap: 8px; background: #0f2233; border: 1px solid #1e3a5f; border-radius: 20px; padding: 6px 14px; font-size: 0.8rem; color: #94a3b8; }
+        .pulse { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; animation: pulse 2s infinite; }
+        .pulse.off { background: #ef4444; animation: none; }
+        @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+
+        .stat-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 24px; }
+        .stat-box { background: #0f1c2e; border-radius: 14px; padding: 18px 20px; border: 1px solid #1e2d42; position: relative; overflow: hidden; }
+        .stat-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent, #38bdf8); }
+        .stat-box .label { color: #64748b; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 600; }
+        .stat-box .value { font-size: 2rem; font-weight: 800; margin-top: 6px; color: var(--accent, #38bdf8); line-height: 1; }
+        .stat-box .sub { color: #475569; font-size: 0.72rem; margin-top: 5px; }
+        .stat-box.red   { --accent: #ef4444; }
+        .stat-box.amber { --accent: #f59e0b; }
+        .stat-box.green { --accent: #22c55e; }
+        .stat-box.purple{ --accent: #a78bfa; }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; }
+        .card { background: #0f1c2e; border-radius: 14px; padding: 20px; border: 1px solid #1e2d42; }
+        .card-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.2px; color: #64748b; font-weight: 600; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+        .card-title .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--dot, #38bdf8); }
+        canvas { max-height: 220px; }
+
+        .strain-score-big { font-size: 4rem; font-weight: 900; text-align: center; line-height: 1; margin: 10px 0 4px; }
+        .strain-label { text-align: center; font-size: 0.78rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+        .strain-date { text-align: center; font-size: 0.72rem; color: #334155; margin-bottom: 10px; }
+
+        .zone-bars { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+        .zone-row { display: flex; align-items: center; gap: 10px; font-size: 0.75rem; }
+        .zone-row .zone-name { width: 110px; color: #64748b; flex-shrink: 0; }
+        .zone-bar-wrap { flex: 1; background: #1e2d42; border-radius: 4px; height: 8px; overflow: hidden; }
+        .zone-bar { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+        .zone-row .zone-mins { width: 40px; text-align: right; color: #475569; }
+
+        .anomaly-list { max-height: 340px; overflow-y: auto; }
+        .anomaly-item { padding: 10px 0; border-bottom: 1px solid #1e2d42; display: flex; justify-content: space-between; align-items: flex-start; }
         .anomaly-item:last-child { border-bottom: none; }
-        .badge { padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
-        .badge.warning { background: #fbbf2433; color: #fbbf24; }
-        .badge.critical { background: #ef444433; color: #ef4444; }
-        .status { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; }
-        .status.connected { background: #22c55e; }
-        .status.disconnected { background: #ef4444; }
-        #progress { display: none; margin-top: 12px; color: #38bdf8; }
-        canvas { max-height: 250px; }
+        .anomaly-metric { font-size: 0.85rem; font-weight: 600; color: #cbd5e1; text-transform: capitalize; }
+        .anomaly-meta { font-size: 0.72rem; color: #475569; margin-top: 2px; }
+        .anomaly-val { font-size: 0.78rem; color: #94a3b8; margin-top: 2px; }
+        .badge { padding: 3px 9px; border-radius: 20px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; flex-shrink: 0; margin-left: 8px; margin-top: 2px; }
+        .badge.warning  { background: #fbbf2420; color: #fbbf24; border: 1px solid #fbbf2440; }
+        .badge.critical { background: #ef444420; color: #ef4444; border: 1px solid #ef444440; }
+
+        .hr-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 14px; }
+        .hr-stat { background: #0a1520; border-radius: 10px; padding: 10px 12px; text-align: center; border: 1px solid #1e2d42; }
+        .hr-stat .hs-val { font-size: 1.3rem; font-weight: 700; color: #ef4444; }
+        .hr-stat .hs-lbl { font-size: 0.65rem; color: #475569; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 2px; }
+
+        .empty { color: #334155; text-align: center; padding: 30px 0; font-size: 0.85rem; }
+
+        @media (max-width: 900px) {
+            .stat-row { grid-template-columns: repeat(3, 1fr); }
+            .grid { grid-template-columns: 1fr; }
+            .grid-3 { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
-    <h1>Fitness Telemetry Dashboard</h1>
 
-    <div class="stat-row">
-        <div class="stat-box"><div class="label">Total Records</div><div class="value" id="totalRecords">0</div></div>
-        <div class="stat-box"><div class="label">Anomalies</div><div class="value warning" id="totalAnomalies">0</div></div>
-        <div class="stat-box"><div class="label">SSE Clients</div><div class="value" id="sseClients">0</div></div>
-        <div class="stat-box"><div class="label">Daily Strain</div><div class="value" id="strainScore">--</div></div>
-        <div class="stat-box"><div class="label">Stream</div><div class="value"><span class="status disconnected" id="streamStatus"></span><span id="streamLabel">Disconnected</span></div></div>
+<header>
+    <h1>Neil's <span>Live Fitness</span> Dashboard</h1>
+    <div class="live-pill">
+        <div class="pulse" id="streamStatus"></div>
+        <span id="streamLabel">Connecting...</span>
     </div>
+</header>
 
-    <div class="upload-area" id="uploadArea">
-        <input type="file" id="fileInput" accept=".xml">
-        <h2>Upload Apple Health Export</h2>
-        <p>Drag & drop your export.xml here or click to browse</p>
-        <button class="btn" id="uploadBtn" style="margin-top: 12px;" onclick="document.getElementById('fileInput').click()">Select File</button>
-        <div id="progress"></div>
+<div class="stat-row">
+    <div class="stat-box">
+        <div class="label">Total Records</div>
+        <div class="value" id="totalRecords">—</div>
+        <div class="sub">data points ingested</div>
     </div>
+    <div class="stat-box red">
+        <div class="label">Anomalies</div>
+        <div class="value" id="totalAnomalies">—</div>
+        <div class="sub">detected events</div>
+    </div>
+    <div class="stat-box amber">
+        <div class="label">Daily Strain</div>
+        <div class="value" id="strainScoreTop">—</div>
+        <div class="sub" id="strainDateLabel">loading...</div>
+    </div>
+    <div class="stat-box green">
+        <div class="label">Resting HR</div>
+        <div class="value" id="restingHR">—</div>
+        <div class="sub">bpm avg</div>
+    </div>
+    <div class="stat-box purple">
+        <div class="label">Active Clients</div>
+        <div class="value" id="sseClients">—</div>
+        <div class="sub">SSE connections</div>
+    </div>
+</div>
 
-    <div class="grid">
-        <div class="card">
-            <h2>Heart Rate (bpm)</h2>
-            <canvas id="heartRateChart"></canvas>
+<div class="grid">
+    <div class="card" style="grid-column: span 2;">
+        <div class="card-title" style="--dot:#ef4444">
+            <div class="dot"></div>Heart Rate — bpm
         </div>
-        <div class="card">
-            <h2>Steps</h2>
-            <canvas id="stepsChart"></canvas>
-        </div>
-        <div class="card">
-            <h2>Calories Burned</h2>
-            <canvas id="caloriesChart"></canvas>
-        </div>
-        <div class="card">
-            <h2>Daily Strain - HR Zones</h2>
-            <canvas id="strainChart"></canvas>
-            <div id="strainDetails" style="margin-top: 12px; color: #94a3b8; font-size: 0.85rem;"></div>
-        </div>
-        <div class="card">
-            <h2>Recent Anomalies</h2>
-            <div class="anomaly-list" id="anomalyList">
-                <p style="color: #64748b; text-align: center; padding: 20px;">No anomalies detected yet</p>
-            </div>
+        <canvas id="heartRateChart"></canvas>
+        <div class="hr-summary">
+            <div class="hr-stat"><div class="hs-val" id="hrMin">—</div><div class="hs-lbl">Min</div></div>
+            <div class="hr-stat"><div class="hs-val" id="hrAvg">—</div><div class="hs-lbl">Avg</div></div>
+            <div class="hr-stat"><div class="hs-val" id="hrMax">—</div><div class="hs-lbl">Peak</div></div>
         </div>
     </div>
+</div>
 
-    <script>
-        const maxPoints = 200;
+<div class="grid-3">
+    <div class="card">
+        <div class="card-title" style="--dot:#22c55e"><div class="dot"></div>Steps</div>
+        <canvas id="stepsChart"></canvas>
+    </div>
+    <div class="card">
+        <div class="card-title" style="--dot:#f59e0b"><div class="dot"></div>Calories Burned</div>
+        <canvas id="caloriesChart"></canvas>
+    </div>
+    <div class="card">
+        <div class="card-title" style="--dot:#f97316"><div class="dot"></div>Daily Strain
+        </div>
+        <div class="strain-score-big" id="strainScoreBig" style="color:#f97316">—</div>
+        <div class="strain-label" id="strainLevelLabel">— / 21</div>
+        <div class="strain-date" id="strainDateBig"></div>
+        <div class="zone-bars" id="zoneBars">
+            <div class="zone-row"><span class="zone-name">Zone 5 Max</span><div class="zone-bar-wrap"><div class="zone-bar" id="z5bar" style="width:0%;background:#ef4444"></div></div><span class="zone-mins" id="z5min">0m</span></div>
+            <div class="zone-row"><span class="zone-name">Zone 4 Hard</span><div class="zone-bar-wrap"><div class="zone-bar" id="z4bar" style="width:0%;background:#f97316"></div></div><span class="zone-mins" id="z4min">0m</span></div>
+            <div class="zone-row"><span class="zone-name">Zone 3 Vigorous</span><div class="zone-bar-wrap"><div class="zone-bar" id="z3bar" style="width:0%;background:#eab308"></div></div><span class="zone-mins" id="z3min">0m</span></div>
+            <div class="zone-row"><span class="zone-name">Zone 2 Moderate</span><div class="zone-bar-wrap"><div class="zone-bar" id="z2bar" style="width:0%;background:#22c55e"></div></div><span class="zone-mins" id="z2min">0m</span></div>
+            <div class="zone-row"><span class="zone-name">Zone 1 Light</span><div class="zone-bar-wrap"><div class="zone-bar" id="z1bar" style="width:0%;background:#38bdf8"></div></div><span class="zone-mins" id="z1min">0m</span></div>
+        </div>
+        <div style="margin-top:12px;font-size:0.72rem;color:#334155;" id="strainDetails"></div>
+    </div>
+</div>
 
-        function createChart(canvasId, label, borderColor, bgColor) {
-            return new Chart(document.getElementById(canvasId), {
-                type: 'line',
-                data: { labels: [], datasets: [{ label, data: [], borderColor, backgroundColor: bgColor, borderWidth: 2, pointRadius: 0, tension: 0.3, fill: true }] },
-                options: {
-                    responsive: true,
-                    animation: false,
-                    scales: {
-                        x: { display: true, ticks: { color: '#64748b', maxTicksLimit: 6 }, grid: { color: '#1e293b' } },
-                        y: { ticks: { color: '#64748b' }, grid: { color: '#1e293b' } }
-                    },
-                    plugins: { legend: { display: false } }
-                }
-            });
-        }
+<div style="margin-top:18px;">
+    <div class="card">
+        <div class="card-title" style="--dot:#f59e0b"><div class="dot"></div>Recent Anomalies</div>
+        <div class="anomaly-list" id="anomalyList">
+            <div class="empty">No anomalies detected yet</div>
+        </div>
+    </div>
+</div>
 
-        const hrChart = createChart('heartRateChart', 'Heart Rate', '#ef4444', '#ef444422');
-        const stepsChart = createChart('stepsChart', 'Steps', '#22c55e', '#22c55e22');
-        const calChart = createChart('caloriesChart', 'Calories', '#f59e0b', '#f59e0b22');
+<script>
+    const maxPoints = 200;
 
-        const charts = { heart_rate: hrChart, steps: stepsChart, calories: calChart };
-
-        function addDataPoint(chart, label, value) {
-            chart.data.labels.push(label);
-            chart.data.datasets[0].data.push(value);
-            if (chart.data.labels.length > maxPoints) {
-                chart.data.labels.shift();
-                chart.data.datasets[0].data.shift();
-            }
-            chart.update();
-        }
-
-        // SSE connection
-        let eventSource;
-        function connectSSE() {
-            eventSource = new EventSource('/stream');
-            eventSource.onopen = () => {
-                document.getElementById('streamStatus').className = 'status connected';
-                document.getElementById('streamLabel').textContent = 'Connected';
-            };
-            eventSource.onmessage = (e) => {
-                try {
-                    const event = JSON.parse(e.data);
-                    if (event.event === 'metric') {
-                        const r = event.data;
-                        const chart = charts[r.type];
-                        if (chart) {
-                            const t = new Date(r.timestamp).toLocaleTimeString();
-                            addDataPoint(chart, t, r.value);
-                        }
-                    } else if (event.event === 'anomaly') {
-                        addAnomalyToList(event.data);
-                    }
-                } catch(err) {}
-            };
-            eventSource.onerror = () => {
-                document.getElementById('streamStatus').className = 'status disconnected';
-                document.getElementById('streamLabel').textContent = 'Reconnecting...';
-            };
-        }
-        connectSSE();
-
-        function addAnomalyToList(a) {
-            const list = document.getElementById('anomalyList');
-            if (list.querySelector('p')) list.innerHTML = '';
-            const item = document.createElement('div');
-            item.className = 'anomaly-item';
-            const ts = new Date(a.timestamp).toLocaleString();
-            item.innerHTML = `<div><strong>${a.type}</strong> ${a.value} (z=${a.zscore})<br><small>${ts}</small></div><span class="badge ${a.severity}">${a.severity}</span>`;
-            list.prepend(item);
-            const count = parseInt(document.getElementById('totalAnomalies').textContent) + 1;
-            document.getElementById('totalAnomalies').textContent = count;
-        }
-
-        // File upload
-        const uploadArea = document.getElementById('uploadArea');
-        const fileInput = document.getElementById('fileInput');
-        const progress = document.getElementById('progress');
-
-        uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('dragover'); });
-        uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
-        uploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadArea.classList.remove('dragover');
-            if (e.dataTransfer.files.length) uploadFile(e.dataTransfer.files[0]);
-        });
-        fileInput.addEventListener('change', () => { if (fileInput.files.length) uploadFile(fileInput.files[0]); });
-
-        async function uploadFile(file) {
-            progress.style.display = 'block';
-            progress.textContent = `Uploading ${file.name} (${(file.size / 1024 / 1024).toFixed(1)} MB)...`;
-            document.getElementById('uploadBtn').disabled = true;
-
-            const formData = new FormData();
-            formData.append('file', file);
-
-            try {
-                const resp = await fetch('/ingest', { method: 'POST', body: formData });
-                const data = await resp.json();
-                progress.textContent = `Done! ${data.message}. ${data.anomalies} anomalies detected.`;
-                refreshStats();
-            } catch(err) {
-                progress.textContent = `Error: ${err.message}`;
-            }
-            document.getElementById('uploadBtn').disabled = false;
-        }
-
-        // Strain chart (horizontal bar for HR zones)
-        const strainChart = new Chart(document.getElementById('strainChart'), {
-            type: 'bar',
-            data: {
-                labels: ['Zone 5 (Max)', 'Zone 4 (Hard)', 'Zone 3 (Vigorous)', 'Zone 2 (Moderate)', 'Zone 1 (Light)'],
-                datasets: [{
-                    data: [0, 0, 0, 0, 0],
-                    backgroundColor: ['#ef4444', '#f97316', '#eab308', '#22c55e', '#38bdf8'],
-                    borderWidth: 0
-                }]
-            },
+    function createChart(canvasId, label, borderColor, bgColor) {
+        return new Chart(document.getElementById(canvasId), {
+            type: 'line',
+            data: { labels: [], datasets: [{ label, data: [], borderColor, backgroundColor: bgColor, borderWidth: 2, pointRadius: 0, tension: 0.4, fill: true }] },
             options: {
-                indexAxis: 'y',
-                responsive: true,
-                animation: false,
+                responsive: true, animation: false,
                 scales: {
-                    x: { title: { display: true, text: 'Minutes', color: '#64748b' }, ticks: { color: '#64748b' }, grid: { color: '#1e293b' } },
-                    y: { ticks: { color: '#94a3b8' }, grid: { display: false } }
+                    x: { display: true, ticks: { color: '#334155', maxTicksLimit: 6, font: { size: 10 } }, grid: { color: '#0f1c2e' } },
+                    y: { ticks: { color: '#475569', font: { size: 10 } }, grid: { color: '#1a2535' } }
                 },
                 plugins: { legend: { display: false } }
             }
         });
+    }
 
-        async function refreshStrain() {
-            try {
-                const today = new Date().toISOString().split('T')[0];
-                const resp = await fetch(`/strain?date=${today}`);
-                const data = await resp.json();
-                document.getElementById('strainScore').textContent = data.score.toFixed(1);
-                const scoreEl = document.getElementById('strainScore');
-                if (data.score >= 15) scoreEl.className = 'value critical';
-                else if (data.score >= 8) scoreEl.className = 'value warning';
-                else scoreEl.className = 'value';
-                strainChart.data.datasets[0].data = [data.zone5_minutes, data.zone4_minutes, data.zone3_minutes, data.zone2_minutes, data.zone1_minutes];
-                strainChart.update();
-                const details = document.getElementById('strainDetails');
-                details.innerHTML = `Avg HR: ${data.avg_hr} bpm | Peak HR: ${data.max_hr} bpm | ${data.hr_samples} samples | ${data.workout_count} workout(s) | ${data.calories_burned} cal`;
-            } catch(err) {}
-        }
+    const hrChart    = createChart('heartRateChart', 'Heart Rate', '#ef4444', 'rgba(239,68,68,0.08)');
+    const stepsChart = createChart('stepsChart',     'Steps',      '#22c55e', 'rgba(34,197,94,0.08)');
+    const calChart   = createChart('caloriesChart',  'Calories',   '#f59e0b', 'rgba(245,158,11,0.08)');
+    const charts = { heart_rate: hrChart, steps: stepsChart, calories: calChart };
 
-        // Load historical data into charts on page open
-        async function loadHistorical() {
+    function addDataPoint(chart, label, value) {
+        chart.data.labels.push(label);
+        chart.data.datasets[0].data.push(value);
+        if (chart.data.labels.length > maxPoints) { chart.data.labels.shift(); chart.data.datasets[0].data.shift(); }
+        chart.update('none');
+    }
+
+    // SSE
+    function connectSSE() {
+        const es = new EventSource('/stream');
+        es.onopen = () => { document.getElementById('streamStatus').className = 'pulse'; document.getElementById('streamLabel').textContent = 'Live'; };
+        es.onmessage = (e) => {
             try {
-                const types = [
-                    { key: 'heart_rate', chart: hrChart },
-                    { key: 'steps',      chart: stepsChart },
-                    { key: 'calories',   chart: calChart },
-                ];
-                for (const { key, chart } of types) {
-                    const resp = await fetch(`/metrics?type=${key}&limit=200`);
-                    const data = await resp.json();
-                    if (!data.records) continue;
-                    // sort ascending by timestamp
-                    data.records.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
-                    for (const r of data.records) {
-                        const t = new Date(r.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-                        addDataPoint(chart, t, r.value);
-                    }
+                const ev = JSON.parse(e.data);
+                if (ev.event === 'metric') {
+                    const r = ev.data;
+                    const chart = charts[r.type];
+                    if (chart) addDataPoint(chart, new Date(r.timestamp).toLocaleTimeString(), r.value);
+                } else if (ev.event === 'anomaly') {
+                    addAnomalyToList(ev.data);
+                    refreshStats();
                 }
             } catch(err) {}
+        };
+        es.onerror = () => { document.getElementById('streamStatus').className = 'pulse off'; document.getElementById('streamLabel').textContent = 'Reconnecting...'; };
+    }
+    connectSSE();
 
-            // Load existing anomalies
-            try {
-                const resp = await fetch('/anomalies');
-                const data = await resp.json();
-                if (data.anomalies) {
-                    data.anomalies.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
-                    data.anomalies.forEach(a => addAnomalyToList(a));
-                }
-            } catch(err) {}
+    function addAnomalyToList(a) {
+        const list = document.getElementById('anomalyList');
+        const empty = list.querySelector('.empty');
+        if (empty) empty.remove();
+        const item = document.createElement('div');
+        item.className = 'anomaly-item';
+        const ts = new Date(a.timestamp).toLocaleString('en-US', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
+        const metricLabel = (a.type || '').replace(/_/g,' ');
+        item.innerHTML = `
+            <div>
+                <div class="anomaly-metric">${metricLabel}</div>
+                <div class="anomaly-val">${a.value?.toFixed(1)} · z-score ${a.zscore?.toFixed(2)}</div>
+                <div class="anomaly-meta">${ts}</div>
+            </div>
+            <span class="badge ${a.severity}">${a.severity}</span>`;
+        list.prepend(item);
+    }
 
-            // Load strain using the date of the most recent record
+    function updateStrain(strain, dateLabel) {
+        const score = strain.score ?? 0;
+        const color = score >= 15 ? '#ef4444' : score >= 8 ? '#f97316' : '#38bdf8';
+        document.getElementById('strainScoreTop').textContent = score.toFixed(1);
+        document.getElementById('strainScoreBig').textContent = score.toFixed(1);
+        document.getElementById('strainScoreBig').style.color = color;
+        document.getElementById('strainLevelLabel').textContent =
+            score >= 18 ? 'All Out  / 21' :
+            score >= 14 ? 'Strenuous  / 21' :
+            score >= 10 ? 'Moderate  / 21' :
+            score >= 6  ? 'Easy  / 21' : 'Recovery  / 21';
+        if (dateLabel) {
+            document.getElementById('strainDateLabel').textContent = dateLabel;
+            document.getElementById('strainDateBig').textContent = dateLabel;
+        }
+        // zone bars — scale to max zone for visual
+        const zones = [strain.zone1_minutes||0, strain.zone2_minutes||0, strain.zone3_minutes||0, strain.zone4_minutes||0, strain.zone5_minutes||0];
+        const maxZ = Math.max(...zones, 1);
+        [1,2,3,4,5].forEach(z => {
+            const mins = zones[z-1];
+            document.getElementById(`z${z}bar`).style.width = (mins/maxZ*100)+'%';
+            document.getElementById(`z${z}min`).textContent = mins > 0 ? Math.round(mins)+'m' : '0m';
+        });
+        document.getElementById('strainDetails').textContent =
+            `Avg ${strain.avg_hr} bpm · Peak ${strain.max_hr} bpm · ${strain.hr_samples} samples · ${strain.workout_count} workout(s) · ${strain.calories_burned} cal`;
+    }
+
+    async function loadHistorical() {
+        // Charts
+        for (const { key, chart } of [
+            { key:'heart_rate', chart:hrChart },
+            { key:'steps',      chart:stepsChart },
+            { key:'calories',   chart:calChart }
+        ]) {
             try {
-                const resp = await fetch('/metrics?type=heart_rate&limit=1');
-                const data = await resp.json();
-                if (data.records && data.records.length > 0) {
-                    const latestDate = data.records[0].timestamp.split('T')[0];
-                    const strainResp = await fetch(`/strain?date=${latestDate}`);
-                    const strain = await strainResp.json();
-                    document.getElementById('strainScore').textContent = strain.score.toFixed(1);
-                    strainChart.data.datasets[0].data = [strain.zone5_minutes, strain.zone4_minutes, strain.zone3_minutes, strain.zone2_minutes, strain.zone1_minutes];
-                    strainChart.update();
-                    document.getElementById('strainDetails').innerHTML =
-                        `Avg HR: ${strain.avg_hr} bpm | Peak HR: ${strain.max_hr} bpm | ${strain.hr_samples} samples | ${strain.workout_count} workout(s) | ${strain.calories_burned} cal`;
-                }
-            } catch(err) {}
+                const d = await (await fetch(`/metrics?type=${key}&limit=200`)).json();
+                if (!d.records) continue;
+                d.records.sort((a,b) => new Date(a.timestamp)-new Date(b.timestamp));
+                for (const r of d.records)
+                    addDataPoint(chart, new Date(r.timestamp).toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}), r.value);
+            } catch(e){}
         }
 
-        // Periodic stats refresh
-        async function refreshStats() {
-            try {
-                const resp = await fetch('/health');
-                const data = await resp.json();
-                document.getElementById('totalRecords').textContent = data.records.toLocaleString();
-                document.getElementById('totalAnomalies').textContent = data.anomalies;
-                document.getElementById('sseClients').textContent = data.sse_clients;
-            } catch(err) {}
-        }
-        setInterval(refreshStats, 5000);
-        setInterval(refreshStrain, 5000);
-        loadHistorical();
-        refreshStats();
-    </script>
+        // HR stats
+        try {
+            const s = await (await fetch('/metrics/stats?type=heart_rate')).json();
+            document.getElementById('hrMin').textContent = s.min?.toFixed(0) ?? '—';
+            document.getElementById('hrAvg').textContent = s.mean?.toFixed(0) ?? '—';
+            document.getElementById('hrMax').textContent = s.max?.toFixed(0) ?? '—';
+            document.getElementById('restingHR').textContent = s.mean?.toFixed(0) ?? '—';
+        } catch(e){}
+
+        // Anomalies
+        try {
+            const d = await (await fetch('/anomalies')).json();
+            if (d.anomalies?.length) {
+                d.anomalies.sort((a,b) => new Date(a.timestamp)-new Date(b.timestamp));
+                d.anomalies.forEach(a => addAnomalyToList(a));
+            }
+        } catch(e){}
+
+        // Strain — find the date with the highest HR to show most interesting day
+        try {
+            const d = await (await fetch('/metrics?type=heart_rate&limit=200')).json();
+            if (!d.records?.length) return;
+            // pick date of the highest HR reading
+            const best = d.records.reduce((a,b) => b.value > a.value ? b : a);
+            const bestDate = best.timestamp.split('T')[0];
+            const strain = await (await fetch(`/strain?date=${bestDate}`)).json();
+            const label = new Date(bestDate+'T12:00:00Z').toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+            updateStrain(strain, label);
+        } catch(e){}
+    }
+
+    async function refreshStats() {
+        try {
+            const d = await (await fetch('/health')).json();
+            document.getElementById('totalRecords').textContent = d.records?.toLocaleString() ?? '—';
+            document.getElementById('totalAnomalies').textContent = d.anomalies ?? '—';
+            document.getElementById('sseClients').textContent = d.sse_clients ?? '—';
+        } catch(e){}
+    }
+
+    setInterval(refreshStats, 5000);
+    loadHistorical();
+    refreshStats();
+</script>
 </body>
 </html>

@@ -49,4 +49,10 @@ resource "aws_ecs_service" "service" {
     security_groups  = var.security_group_ids
     assign_public_ip = true
   }
+
+  load_balancer {
+    target_group_arn = var.target_group_arn
+    container_name   = var.service_name
+    container_port   = var.container_port
+  }
 }

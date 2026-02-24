@@ -1,115 +1,148 @@
-# Fitness Telemetry + OpenClaw AI Investigation Agent
+# Go OpenClaw Fitness Tracker
 
-A Go-based fitness telemetry backend that ingests real Apple Watch health data, streams it via SSE, detects anomalies in real-time, and pairs with an OpenClaw AI agent that investigates health anomalies and sends daily WhatsApp reports.
+A real-time fitness telemetry backend that ingests Apple Watch biometric data, runs sliding window z-score anomaly detection, and streams results live to a dashboard — with an LLM-powered investigation agent and AWS cloud deployment.
+
+![Dashboard](dashboard.png)
+
+---
 
 ## Architecture
 
 ```
-Apple Watch XML --> POST /ingest --> Go Backend (Gin, port 8080)
-                                       |
-                                       +-- store.go: time-series store (sorted slices + binary search + RWMutex)
-                                       +-- anomaly.go: sliding window z-score detector
-                                       +-- sse.go: fan-out broker with backpressure
-                                       +-- REST query API (/metrics, /metrics/stats, /anomalies)
-                                              ^
-                                              |
-                                     OpenClaw Agent (SKILL.md)
-                                       +-- Queries API via curl
-                                       +-- Correlates anomalies with workouts
-                                       +-- Produces natural language health reports
-                                       +-- Sends morning/evening summaries via WhatsApp
+┌─────────────────────────────────────────────────────────────────────┐
+│                         DATA SOURCES                                │
+│                                                                     │
+│   📱 iPhone / Apple Watch                                           │
+│   Health Auto Export app  ──── POST /ingest/json ──────────────┐   │
+│                                                                 │   │
+│   Apple Health XML export ──── POST /ingest     ───────────┐   │   │
+└─────────────────────────────────────────────────────────────│───│───┘
+                                                              │   │
+                        ┌─────────────────────────────────────▼───▼───┐
+                        │              AWS INFRASTRUCTURE              │
+                        │                                              │
+                        │   ┌──────────────────────────────────────┐  │
+                        │   │  Application Load Balancer (port 80) │  │
+                        │   │        fitness-telemetry-alb         │  │
+                        │   └──────────────────┬───────────────────┘  │
+                        │                      │                       │
+                        │   ┌──────────────────▼───────────────────┐  │
+                        │   │      ECS Fargate (Docker container)  │  │
+                        │   │       fitness-telemetry-cluster      │  │
+                        │   │                                      │  │
+                        │   │  ┌────────────────────────────────┐  │  │
+                        │   │  │         Go / Gin Server        │  │  │
+                        │   │  │           port 8080            │  │  │
+                        │   │  │                                │  │  │
+                        │   │  │  ┌──────────┐ ┌────────────┐  │  │  │
+                        │   │  │  │ Streaming│ │  Anomaly   │  │  │  │
+                        │   │  │  │  Parser  │→│  Detector  │  │  │  │
+                        │   │  │  │ xml/json │ │  z-score   │  │  │  │
+                        │   │  │  └────┬─────┘ └─────┬──────┘  │  │  │
+                        │   │  │       │              │          │  │  │
+                        │   │  │  ┌────▼──────────────▼──────┐  │  │  │
+                        │   │  │  │   In-Memory Time-Series  │  │  │  │
+                        │   │  │  │   Store  (RWMutex)       │  │  │  │
+                        │   │  │  └──────────────┬───────────┘  │  │  │
+                        │   │  │                 │               │  │  │
+                        │   │  │  ┌──────────────▼───────────┐  │  │  │
+                        │   │  │  │     SSE Broker           │  │  │  │
+                        │   │  │  │  fan-out to dashboards   │  │  │  │
+                        │   │  │  └──────────────────────────┘  │  │  │
+                        │   │  └────────────────────────────────┘  │  │
+                        │   └──────────────────────────────────────┘  │
+                        │                                              │
+                        │   ┌──────────────────────────────────────┐  │
+                        │   │  ECR  Docker image registry          │  │
+                        │   │  CloudWatch  container logs          │  │
+                        │   └──────────────────────────────────────┘  │
+                        └──────────────────────────────────────────────┘
+                                           │ SSE /stream
+                        ┌──────────────────▼───────────────────────────┐
+                        │        Browser Dashboard  :8080               │
+                        │   Heart Rate · Steps · Calories · Strain     │
+                        │   Live anomaly feed · HR zone breakdown       │
+                        └──────────────────────────────────────────────┘
+                                           │
+                        ┌──────────────────▼───────────────────────────┐
+                        │         OpenClaw AI Agent                     │
+                        │   Queries /anomalies + /metrics/stats         │
+                        │   Correlates anomalies with workouts          │
+                        │   Sends WhatsApp daily health summaries       │
+                        └──────────────────────────────────────────────┘
 ```
 
-## Quick Start
+---
 
-### Run Locally
+## Tech Stack
 
-```bash
-cd src
-go mod download
-go run .
-```
+| Layer | Tool |
+|---|---|
+| Backend | Go 1.24, Gin |
+| Anomaly Detection | Sliding window z-score (window = 200) |
+| Real-time streaming | Server-Sent Events (SSE) |
+| Data store | In-memory sorted slices + `sync.RWMutex` |
+| AI agent | OpenClaw + SKILL.md |
+| Container | Docker (multi-stage alpine build) |
+| Infrastructure | Terraform — ECS Fargate, ECR, ALB, VPC, CloudWatch |
+| Load testing | Locust (Python) |
+| Data sources | Apple Health XML export / Health Auto Export app (JSON) |
 
-Server starts on http://localhost:8080
-
-### Upload Apple Watch Data
-
-1. iPhone -> Health app -> Profile picture -> Export All Health Data
-2. Unzip the export -> `export.xml`
-3. Upload via dashboard at http://localhost:8080 or:
-
-```bash
-curl -F "file=@export.xml" http://localhost:8080/ingest
-```
-
-### Docker
-
-```bash
-cd src
-docker build -t fitness-telemetry .
-docker run -p 8080:8080 fitness-telemetry
-```
+---
 
 ## API Endpoints
 
-| Method | Path | Description | Example |
-|--------|------|-------------|---------|
-| POST | `/ingest` | Upload Apple Health XML | `curl -F "file=@export.xml" localhost:8080/ingest` |
-| GET | `/metrics` | Query by type + time range + limit | `curl "localhost:8080/metrics?type=heart_rate&limit=50"` |
-| GET | `/metrics/stats` | Aggregate stats (min, max, mean, stddev) | `curl "localhost:8080/metrics/stats?type=heart_rate"` |
-| GET | `/anomalies` | List detected anomalies | `curl localhost:8080/anomalies` |
-| GET | `/stream` | SSE live metric + anomaly events | `curl localhost:8080/stream` |
-| GET | `/health` | Health check | `curl localhost:8080/health` |
-| GET | `/` | Live dashboard | Open in browser |
+| Method | Path | Description |
+|---|---|---|
+| `POST` | `/ingest` | Upload Apple Health XML export |
+| `POST` | `/ingest/json` | Receive JSON from Health Auto Export app |
+| `GET` | `/stream` | SSE stream of live metrics and anomalies |
+| `GET` | `/metrics?type=heart_rate&limit=50` | Query metrics by type and time range |
+| `GET` | `/metrics/stats?type=heart_rate` | Min, max, mean, stddev |
+| `GET` | `/anomalies` | All detected anomalies with z-scores |
+| `GET` | `/strain?date=2026-02-16` | Daily strain score and HR zone breakdown |
+| `GET` | `/health` | Server health check |
 
-### Query Parameters
+---
 
-**GET /metrics**
-- `type` (required): `heart_rate`, `steps`, `calories`, `workout`
-- `from` / `to` (optional): RFC3339 timestamps for time-range queries
-- `limit` (optional): max records to return
+## Running Locally
 
-**GET /metrics/stats**
-- `type` (required): metric type
-- `from` / `to` (optional): RFC3339 timestamps
-
-**GET /anomalies**
-- `type` (optional): filter by metric type
-
-## Core Components
-
-### store.go - Time-Series Store
-In-memory store using `map[MetricType][]HealthRecord` with sorted slices. Binary search (`sort.Search`) finds the start of a time range in O(log n). `sync.RWMutex` allows concurrent readers while blocking during writes.
-
-### parser.go - Streaming XML Parser
-`xml.Decoder` reads Apple Health XML token by token, extracting heart rate, steps, calories, and workouts. Records flow through a buffered Go channel — a producer-consumer pipeline using Go concurrency primitives.
-
-### anomaly.go - Sliding Window Z-Score Detector
-Rolling window of 200 values per metric type with running sum/sumSq for O(1) mean and stddev. Warning at z >= 2.0, critical at z >= 3.0.
-
-### sse.go - SSE Broker with Backpressure
-Fan-out to multiple dashboard clients with buffered channels (size 64). Non-blocking sends drop events for slow consumers rather than blocking ingestion.
-
-## OpenClaw AI Agent
-
-The OpenClaw skill (`openclaw-skill/SKILL.md`) enables an LLM to:
-1. Query `/anomalies` for recent anomalies
-2. Get context via `/metrics/stats`
-3. Correlate with workouts via `/metrics?type=workout`
-4. Produce natural language health reports
-5. Send daily WhatsApp summaries (morning sleep report, evening day recap)
-
-### Setup
+**1. Start the server**
 ```bash
-npx openclaw@latest
-# Copy skill to ~/.openclaw/workspace/skills/fitness-investigator/
-# Start the Go server
-# Ask via WhatsApp: "Investigate my recent health anomalies"
+cd src
+go run .
 ```
 
-## Deployment
+**2. Generate and ingest data**
+```bash
+# From your real Apple Health CSV export
+python3 csv_to_xml_rich.py > rich_health.xml
+curl -X POST http://localhost:8080/ingest -F "file=@rich_health.xml"
 
-Uses Terraform with ECS Fargate (reused from HW5):
+# Or fully synthetic
+python3 gen_xml.py > synthetic_health.xml
+curl -X POST http://localhost:8080/ingest -F "file=@synthetic_health.xml"
+```
+
+**3. Open dashboard**
+```
+http://localhost:8080
+```
+
+**4. Live data from Apple Watch (same WiFi)**
+
+Install [Health Auto Export](https://apps.apple.com/app/health-auto-export-json-csv/id1115567033) on iPhone.
+Set REST export URL to:
+```
+http://<your-mac-ip>:8080/ingest/json
+```
+Set export type to **individual samples**, include Heart Rate, Steps, Active Energy.
+
+---
+
+## Deploy to AWS
+
+Prerequisites: AWS CLI configured, Docker running, Terraform installed.
 
 ```bash
 cd terraform
@@ -117,34 +150,39 @@ terraform init
 terraform apply
 ```
 
-## Load Testing
-
-```bash
-pip install locust
-locust -f locustfile.py --host=http://localhost:8080
+ALB DNS printed after apply:
+```
+alb_dns_name = "fitness-telemetry-alb-xxxx.us-west-2.elb.amazonaws.com"
 ```
 
-Open http://localhost:8089 for the Locust dashboard.
-
-## Project Structure
-
+Point Health Auto Export at:
 ```
-HW6/
-|-- src/
-|   |-- main.go              # Gin router, SSE handler, ingest endpoint
-|   |-- models.go            # HealthRecord, AnomalyEvent, StatsResponse structs
-|   |-- store.go             # In-memory time-series store (sorted slices + binary search)
-|   |-- parser.go            # Streaming Apple Health XML parser
-|   |-- anomaly.go           # Sliding window z-score anomaly detector
-|   |-- sse.go               # SSE broker with fan-out and backpressure
-|   |-- handlers.go          # REST handlers for /metrics, /metrics/stats, /anomalies, /health
-|   |-- dashboard.html       # Live dashboard (Chart.js + EventSource, embedded via go:embed)
-|   |-- Dockerfile           # Multi-stage build
-|   |-- go.mod / go.sum
-|-- openclaw-skill/
-|   |-- SKILL.md             # OpenClaw fitness anomaly investigator skill
-|-- terraform/               # ECS Fargate deployment (reused from HW5)
-|-- locustfile.py            # Load testing
-|-- PROJECT_PLAN.md          # Design document
-|-- README.md
+http://fitness-telemetry-alb-xxxx.us-west-2.elb.amazonaws.com/ingest/json
 ```
+
+Dashboard at the same root URL. Tear down with `terraform destroy`.
+
+---
+
+## Anomaly Detection
+
+Sliding window z-score, window = 200 readings per metric type:
+
+- **Warning** — z ≥ 2.0 (top 2.3% of distribution)
+- **Critical** — z ≥ 3.0 (top 0.1% of distribution)
+
+The OpenClaw agent cross-references `/metrics?type=workout` to flag exercise-induced spikes as expected.
+
+---
+
+## Daily Strain Score
+
+0–21 scale modelled on Whoop. Time in each HR zone weighted by effort multiplier, then log-scaled.
+
+| Zone | % Max HR | Multiplier |
+|---|---|---|
+| Zone 1 Light | 50–60% | 0.2× |
+| Zone 2 Moderate | 60–70% | 0.5× |
+| Zone 3 Vigorous | 70–80% | 1.0× |
+| Zone 4 Hard | 80–90% | 2.5× |
+| Zone 5 Max | 90–100% | 5.0× |
