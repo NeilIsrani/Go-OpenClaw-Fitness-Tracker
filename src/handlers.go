@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 	"strconv"
+	"sync"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -117,6 +118,44 @@ func (app *App) HandleGetStrain(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, strain)
+}
+
+// HandleGetAllStats handles GET /metrics/all - fans out stats queries concurrently across all metric types
+func (app *App) HandleGetAllStats(c *gin.Context) {
+	metricTypes := []MetricType{HeartRate, Steps, Calories}
+	from := time.Time{}
+	to := time.Now().Add(24 * time.Hour)
+
+	type result struct {
+		metricType MetricType
+		stats      *StatsResponse
+	}
+
+	resultCh := make(chan result, len(metricTypes))
+
+	var wg sync.WaitGroup
+	for _, mt := range metricTypes {
+		wg.Add(1)
+		go func(mt MetricType) {
+			defer wg.Done()
+			stats := app.Store.Stats(mt, from, to)
+			resultCh <- result{metricType: mt, stats: stats}
+		}(mt)
+	}
+
+	// Close result channel once all goroutines finish
+	go func() {
+		wg.Wait()
+		close(resultCh)
+	}()
+
+	// Fan-in: collect results as they arrive
+	all := make(map[MetricType]*StatsResponse)
+	for r := range resultCh {
+		all[r.metricType] = r.stats
+	}
+
+	c.JSON(http.StatusOK, all)
 }
 
 // HandleHealth handles GET /health

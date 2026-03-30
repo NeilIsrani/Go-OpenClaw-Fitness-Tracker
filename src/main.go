@@ -119,6 +119,7 @@ func main() {
 	// REST API
 	router.GET("/metrics", app.HandleGetMetrics)
 	router.GET("/metrics/stats", app.HandleGetStats)
+	router.GET("/metrics/all", app.HandleGetAllStats)
 	router.GET("/anomalies", app.HandleGetAnomalies)
 	router.GET("/strain", app.HandleGetStrain)
 	router.GET("/health", app.HandleHealth)

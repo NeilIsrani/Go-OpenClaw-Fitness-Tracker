@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Terraform Fix — Target Group Wiring</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #080f1a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 60px 40px; min-height: 100vh; color: #f1f5f9; }
+
+  h1 { text-align: center; color: #38bdf8; font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
+  .subtitle { text-align: center; color: #475569; font-size: 1rem; margin-bottom: 60px; }
+
+  .side-by-side { display: flex; gap: 48px; justify-content: center; align-items: flex-start; max-width: 1200px; margin: 0 auto; }
+
+  .panel { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0; }
+
+  .panel-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 10px 28px;
+    border-radius: 999px;
+    margin-bottom: 32px;
+    letter-spacing: 0.5px;
+  }
+  .panel-title.bad  { background: #3b1a1a; color: #f87171; border: 1.5px solid #7f1d1d; }
+  .panel-title.good { background: #0d2b1a; color: #4ade80; border: 1.5px solid #14532d; }
+
+  .module {
+    background: #0f1c2e;
+    border: 1.5px solid #1e2d42;
+    border-radius: 16px;
+    padding: 24px 32px;
+    width: 100%;
+    max-width: 340px;
+    text-align: center;
+  }
+  .module .icon { font-size: 2rem; margin-bottom: 8px; }
+  .module .name { font-size: 1rem; font-weight: 700; color: #38bdf8; margin-bottom: 6px; }
+  .module .file { font-size: 0.78rem; color: #475569; font-family: monospace; margin-bottom: 10px; }
+  .module .fields { text-align: left; margin-top: 10px; }
+  .module .field {
+    font-size: 0.82rem;
+    font-family: monospace;
+    padding: 5px 10px;
+    border-radius: 6px;
+    margin-bottom: 5px;
+  }
+  .field.output  { background: #0d2233; color: #7dd3fc; border-left: 3px solid #0284c7; }
+  .field.var     { background: #1a1a0d; color: #fde68a; border-left: 3px solid #ca8a04; }
+  .field.missing { background: #1a0d0d; color: #fca5a5; border-left: 3px solid #dc2626; text-decoration: line-through; opacity: 0.5; }
+  .field.pass    { background: #0d2b1a; color: #86efac; border-left: 3px solid #16a34a; }
+
+  .arrow-down {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 4px 0;
+    gap: 0;
+  }
+  .arrow-line { width: 2px; height: 28px; }
+  .arrow-line.bad  { background: #dc2626; }
+  .arrow-line.good { background: #16a34a; }
+  .arrow-head { font-size: 1.1rem; line-height: 1; margin-top: -4px; }
+  .arrow-head.bad  { color: #dc2626; }
+  .arrow-head.good { color: #16a34a; }
+  .arrow-label { font-size: 0.75rem; font-family: monospace; margin-top: 4px; }
+  .arrow-label.bad  { color: #f87171; }
+  .arrow-label.good { color: #4ade80; }
+
+  .broken-line {
+    width: 100%;
+    max-width: 340px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 4px 0;
+  }
+  .dash { width: 40px; height: 2px; background: #dc2626; opacity: 0.4; }
+  .broken-label { font-size: 0.75rem; color: #f87171; font-style: italic; }
+
+  .result-box {
+    margin-top: 24px;
+    width: 100%;
+    max-width: 340px;
+    border-radius: 12px;
+    padding: 16px 20px;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  .result-box.bad  { background: #3b1a1a; border: 1.5px solid #7f1d1d; color: #f87171; }
+  .result-box.good { background: #0d2b1a; border: 1.5px solid #14532d; color: #4ade80; }
+  .result-box .detail { font-size: 0.78rem; font-weight: 400; margin-top: 6px; color: #94a3b8; }
+
+  .divider { width: 2px; background: #1e2d42; align-self: stretch; border-radius: 2px; }
+
+  .main-module {
+    background: #131f30;
+    border: 1.5px solid #1e3a5f;
+    border-radius: 16px;
+    padding: 20px 32px;
+    width: 100%;
+    max-width: 340px;
+    text-align: center;
+  }
+  .main-module .name { font-size: 0.85rem; font-weight: 700; color: #94a3b8; margin-bottom: 10px; }
+  .main-module .field { font-size: 0.82rem; font-family: monospace; padding: 5px 10px; border-radius: 6px; margin-bottom: 5px; text-align: left; }
+</style>
+</head>
+<body>
+
+<h1>Terraform Bug — ALB Not Connected to ECS</h1>
+<p class="subtitle">Target group ARN was never passed between modules</p>
+
+<div class="side-by-side">
+
+  <!-- BEFORE -->
+  <div class="panel">
+    <div class="panel-title bad">Before — Broken</div>
+
+    <div class="module">
+      <div class="icon">🌐</div>
+      <div class="name">module.network</div>
+      <div class="file">modules/network/outputs.tf</div>
+      <div class="fields">
+        <div class="field output">output "alb_dns_name" ✓</div>
+        <div class="field output">output "target_group_arn" ✓</div>
+      </div>
+    </div>
+
+    <div class="arrow-down">
+      <div class="arrow-line bad"></div>
+      <div class="arrow-head bad">▼</div>
+    </div>
+
+    <div class="main-module">
+      <div class="name">main.tf — module calls</div>
+      <div class="fields">
+        <div class="field missing">target_group_arn = ... ✗</div>
+      </div>
+    </div>
+
+    <div class="arrow-down">
+      <div class="arrow-line bad"></div>
+      <div class="arrow-head bad">▼</div>
+    </div>
+
+    <div class="module">
+      <div class="icon">🐳</div>
+      <div class="name">module.ecs</div>
+      <div class="file">modules/ecs/variables.tf</div>
+      <div class="fields">
+        <div class="field missing">variable "target_group_arn" ✗</div>
+      </div>
+    </div>
+
+    <div class="broken-line">
+      <div class="dash"></div>
+      <div class="broken-label">no link to ALB</div>
+      <div class="dash"></div>
+    </div>
+
+    <div class="result-box bad">
+      Tasks start → health check fails → ECS kills them
+      <div class="detail">Terraform reports success. Nothing actually works.</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- AFTER -->
+  <div class="panel">
+    <div class="panel-title good">After — Fixed</div>
+
+    <div class="module">
+      <div class="icon">🌐</div>
+      <div class="name">module.network</div>
+      <div class="file">modules/network/outputs.tf</div>
+      <div class="fields">
+        <div class="field output">output "alb_dns_name" ✓</div>
+        <div class="field output">output "target_group_arn" ✓</div>
+      </div>
+    </div>
+
+    <div class="arrow-down">
+      <div class="arrow-line good"></div>
+      <div class="arrow-head good">▼</div>
+      <div class="arrow-label good">module.network.target_group_arn</div>
+    </div>
+
+    <div class="main-module">
+      <div class="name">main.tf — module calls</div>
+      <div class="fields">
+        <div class="field pass">target_group_arn = module.network.target_group_arn ✓</div>
+      </div>
+    </div>
+
+    <div class="arrow-down">
+      <div class="arrow-line good"></div>
+      <div class="arrow-head good">▼</div>
+      <div class="arrow-label good">var.target_group_arn</div>
+    </div>
+
+    <div class="module">
+      <div class="icon">🐳</div>
+      <div class="name">module.ecs</div>
+      <div class="file">modules/ecs/variables.tf</div>
+      <div class="fields">
+        <div class="field var">variable "target_group_arn" ✓</div>
+        <div class="field pass">load_balancer { target_group_arn } ✓</div>
+      </div>
+    </div>
+
+    <div class="arrow-down">
+      <div class="arrow-line good"></div>
+      <div class="arrow-head good">▼</div>
+    </div>
+
+    <div class="result-box good">
+      Tasks register with ALB → health checks pass → traffic flows
+      <div class="detail">Three lines of Terraform. Output → variable → module call.</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
