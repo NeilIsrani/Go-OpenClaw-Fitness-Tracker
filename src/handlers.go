@@ -11,9 +11,10 @@ import (
 
 // App holds shared dependencies for handlers
 type App struct {
-	Store    *MetricStore
-	Broker   *SSEBroker
-	Detector *AnomalyDetector
+	Store     *MetricStore
+	Broker    *SSEBroker
+	Detector  *AnomalyDetector
+	Queue     IngestQueue
 	StartTime time.Time
 }
 

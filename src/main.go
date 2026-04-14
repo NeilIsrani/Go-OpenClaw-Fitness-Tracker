@@ -1,8 +1,8 @@
 package main
 
 import (
+	"context"
 	"embed"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -19,13 +19,17 @@ func main() {
 	store := NewMetricStore()
 	broker := NewSSEBroker()
 	detector := NewAnomalyDetector()
+	queue := NewQueue(context.Background())
 
 	app := &App{
 		Store:     store,
 		Broker:    broker,
 		Detector:  detector,
+		Queue:     queue,
 		StartTime: time.Now(),
 	}
+
+	startWorkers(app)
 
 	router := gin.Default()
 
@@ -48,7 +52,6 @@ func main() {
 		}
 		defer file.Close()
 
-		// Create a pipe so we can stream the upload through the parser
 		pr, pw := io.Pipe()
 		go func() {
 			defer pw.Close()
@@ -57,40 +60,36 @@ func main() {
 
 		recordCh := ParseAppleHealthXML(pr)
 
-		ingested := 0
-		anomaliesDetected := 0
-
+		queued := 0
+		dropped := 0
 		for record := range recordCh {
-			store.Add(record)
-			ingested++
-
-			// Broadcast to SSE clients
-			broker.Broadcast(SSEEvent{
-				Event: "metric",
-				Data:  record,
-			})
-
-			// Check for anomalies
-			if anomaly := detector.Detect(record); anomaly != nil {
-				store.AddAnomaly(*anomaly)
-				anomaliesDetected++
-				broker.Broadcast(SSEEvent{
-					Event: "anomaly",
-					Data:  anomaly,
-				})
+			if err := app.Queue.Enqueue(record); err != nil {
+				log.Printf("[xml] queue full, dropping record: %v", err)
+				dropped++
+			} else {
+				queued++
 			}
 		}
 
-		log.Printf("Ingested %d records, detected %d anomalies", ingested, anomaliesDetected)
-		c.JSON(http.StatusOK, gin.H{
-			"message":   fmt.Sprintf("ingested %d records", ingested),
-			"records":   ingested,
-			"anomalies": anomaliesDetected,
+		log.Printf("[xml] queued=%d dropped=%d", queued, dropped)
+		c.JSON(http.StatusAccepted, gin.H{
+			"status":  "queued",
+			"queued":  queued,
+			"dropped": dropped,
 		})
 	})
 
-	// SSE streaming endpoint
+	// SSE streaming endpoint — bulkhead caps concurrent connections at maxSSEClients
 	router.GET("/stream", func(c *gin.Context) {
+		if broker.ClientCount() >= maxSSEClients {
+			c.JSON(http.StatusServiceUnavailable, gin.H{
+				"error":   "stream capacity full",
+				"limit":   maxSSEClients,
+				"current": broker.ClientCount(),
+			})
+			return
+		}
+
 		c.Header("Content-Type", "text/event-stream")
 		c.Header("Cache-Control", "no-cache")
 		c.Header("Connection", "keep-alive")

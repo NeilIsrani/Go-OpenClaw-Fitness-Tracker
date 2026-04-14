@@ -72,7 +72,9 @@ func parseHAEDate(s string) (time.Time, bool) {
 	return time.Time{}, false
 }
 
-// HandleIngestJSON handles POST /ingest/json from Health Auto Export app
+// HandleIngestJSON handles POST /ingest/json from Health Auto Export app.
+// Parses the payload, enqueues each record, and returns 202 immediately.
+// Store, anomaly detection, and SSE broadcast happen in background workers.
 func (app *App) HandleIngestJSON(c *gin.Context) {
 	var export haeExport
 	if err := c.ShouldBindJSON(&export); err != nil {
@@ -80,10 +82,10 @@ func (app *App) HandleIngestJSON(c *gin.Context) {
 		return
 	}
 
-	ingested := 0
-	anomaliesDetected := 0
+	queued := 0
+	dropped := 0
 
-	// Process metrics
+	// Enqueue metrics
 	for _, metric := range export.Data.Metrics {
 		metricType, known := haeMetricMap[metric.Name]
 		if !known {
@@ -101,18 +103,16 @@ func (app *App) HandleIngestJSON(c *gin.Context) {
 				Timestamp: ts,
 				Source:    "Health Auto Export",
 			}
-			app.Store.Add(record)
-			app.Broker.Broadcast(SSEEvent{Event: "metric", Data: record})
-			if anomaly := app.Detector.Detect(record); anomaly != nil {
-				app.Store.AddAnomaly(*anomaly)
-				anomaliesDetected++
-				app.Broker.Broadcast(SSEEvent{Event: "anomaly", Data: anomaly})
+			if err := app.Queue.Enqueue(record); err != nil {
+				log.Printf("[json] queue full, dropping record: %v", err)
+				dropped++
+			} else {
+				queued++
 			}
-			ingested++
 		}
 	}
 
-	// Process workouts
+	// Enqueue workouts
 	for _, w := range export.Data.Workouts {
 		ts, ok := parseHAEDate(w.Start)
 		if !ok {
@@ -130,15 +130,18 @@ func (app *App) HandleIngestJSON(c *gin.Context) {
 			Source:      "Health Auto Export",
 			WorkoutType: w.Name,
 		}
-		app.Store.Add(record)
-		app.Broker.Broadcast(SSEEvent{Event: "metric", Data: record})
-		ingested++
+		if err := app.Queue.Enqueue(record); err != nil {
+			log.Printf("[json] queue full, dropping workout: %v", err)
+			dropped++
+		} else {
+			queued++
+		}
 	}
 
-	log.Printf("[json] Ingested %d records, %d anomalies", ingested, anomaliesDetected)
-	c.JSON(http.StatusOK, gin.H{
-		"message":   "ok",
-		"records":   ingested,
-		"anomalies": anomaliesDetected,
+	log.Printf("[json] queued=%d dropped=%d", queued, dropped)
+	c.JSON(http.StatusAccepted, gin.H{
+		"status":  "queued",
+		"queued":  queued,
+		"dropped": dropped,
 	})
 }
