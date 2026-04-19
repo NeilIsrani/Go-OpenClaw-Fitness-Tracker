@@ -1,1035 +1,819 @@
 [
   {
     "operation": "ingest",
-    "response_time": 201,
+    "response_time": 790,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:31Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 180,
+    "response_time": 790,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:32Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 177,
+    "response_time": 790,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:32Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 181,
+    "response_time": 790,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:32Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 182,
+    "response_time": 790,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:32Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 187,
+    "response_time": 789,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:32Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 190,
+    "response_time": 790,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:33Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 181,
+    "response_time": 881,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:33Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 180,
+    "response_time": 882,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:33Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 183,
+    "response_time": 881,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:33Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 182,
+    "response_time": 881,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:33Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 187,
+    "response_time": 882,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:34Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 182,
+    "response_time": 881,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:34Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 187,
+    "response_time": 881,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:34Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 186,
+    "response_time": 883,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:34Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 179,
+    "response_time": 899,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:34Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 184,
+    "response_time": 899,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:34Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 186,
+    "response_time": 898,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:35Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 185,
+    "response_time": 1021,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:35Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 183,
+    "response_time": 1022,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:35Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 188,
+    "response_time": 1020,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:35Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 184,
+    "response_time": 1021,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:35Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 181,
+    "response_time": 1022,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:36Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 178,
+    "response_time": 1024,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:36Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 192,
+    "response_time": 1037,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:36Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 186,
+    "response_time": 1038,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:36Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 188,
+    "response_time": 1038,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:36Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 183,
+    "response_time": 1038,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:36Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 184,
+    "response_time": 1038,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:37Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 184,
+    "response_time": 1038,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:37Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 181,
+    "response_time": 1038,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:37Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 185,
+    "response_time": 1038,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:37Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 178,
+    "response_time": 1372,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:37Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 186,
+    "response_time": 1372,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:38Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 182,
+    "response_time": 1372,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:38Z"
+    "timestamp": "2026-04-19T00:18:54Z"
   },
   {
     "operation": "ingest",
-    "response_time": 178,
+    "response_time": 1526,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:38Z"
+    "timestamp": "2026-04-19T00:18:55Z"
   },
   {
     "operation": "ingest",
-    "response_time": 187,
+    "response_time": 1526,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:38Z"
+    "timestamp": "2026-04-19T00:18:55Z"
   },
   {
     "operation": "ingest",
-    "response_time": 182,
+    "response_time": 1527,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:38Z"
+    "timestamp": "2026-04-19T00:18:55Z"
   },
   {
     "operation": "ingest",
-    "response_time": 180,
+    "response_time": 1528,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:38Z"
+    "timestamp": "2026-04-19T00:18:55Z"
   },
   {
     "operation": "ingest",
-    "response_time": 188,
+    "response_time": 1528,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:39Z"
+    "timestamp": "2026-04-19T00:18:55Z"
   },
   {
     "operation": "ingest",
-    "response_time": 181,
+    "response_time": 1528,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:39Z"
+    "timestamp": "2026-04-19T00:18:55Z"
   },
   {
     "operation": "ingest",
-    "response_time": 186,
+    "response_time": 1732,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:39Z"
+    "timestamp": "2026-04-19T00:18:55Z"
   },
   {
     "operation": "ingest",
-    "response_time": 179,
+    "response_time": 1732,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:39Z"
+    "timestamp": "2026-04-19T00:18:55Z"
   },
   {
     "operation": "ingest",
-    "response_time": 184,
+    "response_time": 1732,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:39Z"
+    "timestamp": "2026-04-19T00:18:55Z"
   },
   {
     "operation": "ingest",
-    "response_time": 182,
+    "response_time": 1732,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:40Z"
+    "timestamp": "2026-04-19T00:18:55Z"
   },
   {
     "operation": "ingest",
-    "response_time": 188,
+    "response_time": 1732,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:40Z"
+    "timestamp": "2026-04-19T00:18:55Z"
   },
   {
     "operation": "ingest",
-    "response_time": 176,
+    "response_time": 1732,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:40Z"
+    "timestamp": "2026-04-19T00:18:55Z"
   },
   {
     "operation": "ingest",
-    "response_time": 181,
+    "response_time": 2350,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:40Z"
+    "timestamp": "2026-04-19T00:18:55Z"
   },
   {
     "operation": "ingest",
-    "response_time": 192,
+    "response_time": 2350,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:40Z"
+    "timestamp": "2026-04-19T00:18:55Z"
   },
   {
     "operation": "ingest",
-    "response_time": 191,
+    "response_time": 3990,
     "success": true,
-    "status_code": 200,
+    "status_code": 202,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:41Z"
+    "timestamp": "2026-04-19T00:18:57Z"
   },
   {
     "operation": "query",
-    "response_time": 195,
+    "response_time": 205,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:41Z"
+    "timestamp": "2026-04-19T00:18:57Z"
   },
   {
     "operation": "query",
-    "response_time": 182,
+    "response_time": 230,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:41Z"
+    "timestamp": "2026-04-19T00:18:57Z"
   },
   {
     "operation": "query",
-    "response_time": 192,
+    "response_time": 249,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:41Z"
+    "timestamp": "2026-04-19T00:18:58Z"
   },
   {
     "operation": "query",
-    "response_time": 187,
+    "response_time": 299,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:41Z"
+    "timestamp": "2026-04-19T00:18:58Z"
   },
   {
     "operation": "query",
-    "response_time": 183,
+    "response_time": 204,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:41Z"
+    "timestamp": "2026-04-19T00:18:58Z"
   },
   {
     "operation": "query",
-    "response_time": 179,
+    "response_time": 197,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:42Z"
+    "timestamp": "2026-04-19T00:18:58Z"
   },
   {
     "operation": "query",
-    "response_time": 179,
+    "response_time": 235,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:42Z"
+    "timestamp": "2026-04-19T00:18:59Z"
   },
   {
     "operation": "query",
-    "response_time": 183,
+    "response_time": 206,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:42Z"
+    "timestamp": "2026-04-19T00:18:59Z"
   },
   {
     "operation": "query",
-    "response_time": 181,
+    "response_time": 254,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:42Z"
+    "timestamp": "2026-04-19T00:18:59Z"
   },
   {
     "operation": "query",
-    "response_time": 181,
+    "response_time": 234,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:42Z"
+    "timestamp": "2026-04-19T00:18:59Z"
   },
   {
     "operation": "query",
-    "response_time": 194,
+    "response_time": 203,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:43Z"
+    "timestamp": "2026-04-19T00:18:59Z"
   },
   {
     "operation": "query",
-    "response_time": 195,
+    "response_time": 228,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:43Z"
+    "timestamp": "2026-04-19T00:19:00Z"
   },
   {
     "operation": "query",
-    "response_time": 199,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:43Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 185,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:43Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 184,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:43Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 182,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:44Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 187,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:44Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 190,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:44Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 187,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:44Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 189,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:44Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 184,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:44Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 177,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:45Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 186,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:45Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 195,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:45Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 188,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:45Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 183,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:45Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 183,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:46Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 180,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:46Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 179,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:46Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 185,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:46Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 183,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:46Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 186,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:46Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 190,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:47Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 187,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:47Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 185,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:47Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 189,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:47Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 195,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:47Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 183,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:48Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 184,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:48Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 181,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:48Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 184,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:48Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 186,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:48Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 177,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:49Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 174,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:49Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 180,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:49Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 179,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:49Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 182,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:49Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 189,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:49Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 184,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:50Z"
-  },
-  {
-    "operation": "query",
-    "response_time": 184,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:50Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 470,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:50Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 183,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:50Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 180,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:51Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 701,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:51Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 183,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:52Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 182,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:52Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 536,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:52Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 194,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:52Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 181,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:53Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 465,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:53Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 184,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:53Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 186,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:53Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 552,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:54Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 186,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:54Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 181,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:54Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 558,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:55Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 181,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:55Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 177,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:55Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 386,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:56Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 183,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:56Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 190,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:49:56Z"
-  },
-  {
-    "operation": "stats",
     "response_time": 514,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:57Z"
+    "timestamp": "2026-04-19T00:19:00Z"
   },
   {
-    "operation": "stats",
-    "response_time": 180,
+    "operation": "query",
+    "response_time": 228,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:57Z"
+    "timestamp": "2026-04-19T00:19:00Z"
   },
   {
-    "operation": "stats",
-    "response_time": 183,
+    "operation": "query",
+    "response_time": 301,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:57Z"
+    "timestamp": "2026-04-19T00:19:01Z"
   },
   {
-    "operation": "stats",
-    "response_time": 349,
+    "operation": "query",
+    "response_time": 1166,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:57Z"
+    "timestamp": "2026-04-19T00:19:02Z"
   },
   {
-    "operation": "stats",
-    "response_time": 180,
+    "operation": "query",
+    "response_time": 207,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:57Z"
+    "timestamp": "2026-04-19T00:19:02Z"
   },
   {
-    "operation": "stats",
-    "response_time": 184,
+    "operation": "query",
+    "response_time": 193,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:58Z"
+    "timestamp": "2026-04-19T00:19:02Z"
   },
   {
-    "operation": "stats",
-    "response_time": 457,
+    "operation": "query",
+    "response_time": 204,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:58Z"
+    "timestamp": "2026-04-19T00:19:03Z"
   },
   {
-    "operation": "stats",
+    "operation": "query",
+    "response_time": 254,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:03Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 223,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:03Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 219,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:03Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 222,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:03Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 199,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:04Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 283,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:04Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 211,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:04Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 215,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:04Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 193,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:05Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 204,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:05Z"
+  },
+  {
+    "operation": "query",
     "response_time": 196,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:58Z"
+    "timestamp": "2026-04-19T00:19:05Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 212,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:05Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 201,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:05Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 203,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:06Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 191,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:06Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 194,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:06Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 189,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:06Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 200,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:06Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 205,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:07Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 204,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:07Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 232,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:07Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 243,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:07Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 190,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:07Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 204,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:08Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 195,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:08Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 219,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:08Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 194,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:08Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 196,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:08Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 192,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:09Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 201,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:09Z"
+  },
+  {
+    "operation": "query",
+    "response_time": 209,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:09Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 119,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:35Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 231,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:36Z"
   },
   {
     "operation": "stats",
@@ -1037,71 +821,39 @@
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:58Z"
+    "timestamp": "2026-04-19T00:19:36Z"
   },
   {
     "operation": "stats",
-    "response_time": 529,
+    "response_time": 194,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:59Z"
+    "timestamp": "2026-04-19T00:19:36Z"
   },
   {
     "operation": "stats",
-    "response_time": 183,
+    "response_time": 253,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:59Z"
+    "timestamp": "2026-04-19T00:19:36Z"
   },
   {
     "operation": "stats",
-    "response_time": 180,
+    "response_time": 197,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:49:59Z"
+    "timestamp": "2026-04-19T00:19:36Z"
   },
   {
     "operation": "stats",
-    "response_time": 559,
+    "response_time": 204,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:50:00Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 183,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:50:00Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 178,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:50:00Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 570,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:50:01Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 189,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:50:01Z"
+    "timestamp": "2026-04-19T00:19:37Z"
   },
   {
     "operation": "stats",
@@ -1109,47 +861,7 @@
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:50:01Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 612,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:50:02Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 190,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:50:02Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 187,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:50:02Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 551,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:50:03Z"
-  },
-  {
-    "operation": "stats",
-    "response_time": 184,
-    "success": true,
-    "status_code": 200,
-    "backend": "none",
-    "timestamp": "2026-03-30T02:50:03Z"
+    "timestamp": "2026-04-19T00:19:37Z"
   },
   {
     "operation": "stats",
@@ -1157,46 +869,334 @@
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:50:03Z"
+    "timestamp": "2026-04-19T00:19:37Z"
   },
   {
     "operation": "stats",
-    "response_time": 289,
+    "response_time": 239,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:50:03Z"
+    "timestamp": "2026-04-19T00:19:37Z"
   },
   {
     "operation": "stats",
-    "response_time": 185,
+    "response_time": 207,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:50:04Z"
+    "timestamp": "2026-04-19T00:19:37Z"
   },
   {
     "operation": "stats",
-    "response_time": 178,
+    "response_time": 190,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:50:04Z"
+    "timestamp": "2026-04-19T00:19:38Z"
   },
   {
     "operation": "stats",
-    "response_time": 493,
+    "response_time": 196,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:50:04Z"
+    "timestamp": "2026-04-19T00:19:38Z"
   },
   {
     "operation": "stats",
-    "response_time": 175,
+    "response_time": 201,
     "success": true,
     "status_code": 200,
     "backend": "none",
-    "timestamp": "2026-03-30T02:50:05Z"
+    "timestamp": "2026-04-19T00:19:38Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 190,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:38Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 225,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:38Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 211,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:39Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 222,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:39Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 224,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:39Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 208,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:39Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 216,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:40Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 200,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:40Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 201,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:40Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 214,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:40Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 206,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:40Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 247,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:41Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 205,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:41Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 236,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:41Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 223,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:41Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 220,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:41Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 201,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:42Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 214,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:42Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 341,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:42Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 364,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:43Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 201,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:43Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 208,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:43Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 209,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:43Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 215,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:43Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 292,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:44Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 193,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:44Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 214,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:44Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 239,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:44Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 228,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:45Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 271,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:45Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 290,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:45Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 223,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:45Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 215,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:46Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 228,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:46Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 241,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:46Z"
+  },
+  {
+    "operation": "stats",
+    "response_time": 201,
+    "success": true,
+    "status_code": 200,
+    "backend": "none",
+    "timestamp": "2026-04-19T00:19:46Z"
   }
 ]

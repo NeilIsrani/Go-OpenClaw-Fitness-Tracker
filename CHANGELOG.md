@@ -4,28 +4,37 @@ All notable changes to the fitness telemetry platform are documented here.
 
 ---
 
-## [Unreleased] — 2026-04-12
+## [Unreleased] — 2026-04-19
 
 ### Added
 - **Async ingest pipeline via SQS** (`src/queue.go`)
   - `IngestQueue` interface with two implementations: `SQSQueue` (AWS SQS, enabled via `SQS_QUEUE_URL` env var) and `ChannelQueue` (in-process buffered channel, local fallback)
-  - `SQSQueue` uses long-polling (`WaitTimeSeconds=20`) to minimise empty receive calls; deletes messages from the queue after forwarding to prevent redelivery
+  - `SQSQueue` uses long-polling (`WaitTimeSeconds=20`) to minimise empty receive calls; deletes messages after forwarding to prevent redelivery
   - `ChannelQueue` is a 1024-slot buffered channel with identical semantics — no code change needed to switch between backends
   - Worker pool of 10 goroutines drains the queue; each worker runs `Store.Add` → `Detector.Detect` → `Broker.Broadcast` in sequence
   - `NewQueue` factory selects the backend automatically at startup based on environment
 
 - **SSE bulkhead** (`src/main.go`)
-  - `/stream` handler now rejects connections beyond 500 concurrent clients with `HTTP 503` and a JSON body containing `limit` and `current` counts
-  - Eliminates the ALB idle-timeout failures observed in Experiment 3 (Test 3 recorded 144 failures caused by the ALB cutting connections after 60 seconds — bulkhead fast-fails instead of hanging)
+  - `/stream` handler rejects connections beyond 200 concurrent clients with `HTTP 503` and a JSON body containing `limit` and `current` counts
+  - Limit lowered from original 500 to 200 following Experiment 3 findings — CPU saturates at ~85 concurrent clients under continuous anomaly injection; 200 provides headroom without allowing unbounded fan-out cost
+  - Eliminates the ALB idle-timeout failures observed in the original Experiment 3 run (144 failures caused by ALB cutting connections after 60 seconds — bulkhead fast-fails instead of hanging)
 
 - **`Queue` field on `App` struct** (`src/handlers.go`)
   - Ingest queue is now a first-class dependency alongside `Store`, `Broker`, and `Detector`
+
+- **Load test suite expanded** (`tests/locust/`, `tests/run_tests.go`)
+  - `exp1_scaling_b.py` — fixed-load horizontal scaling comparison: 600 users at 1/2/4 ECS tasks
+  - `exp4_worker_saturation.py` — zero-wait burst test: 180 concurrent users, 50-reading batches, monitors `dropped` counter in 202 response body
+  - `run_tests.go` rewritten: Phase 1 now 50 concurrent goroutines (was sequential), Phase 3 pre-seeds 10,000 records, Phase 4 stats against seeded store, P50/P95/P99 summary table added
+  - `exp3_sse_fanout.py` updated: chaos injection wired into `@events.test_start` via boto3, fires automatically at 240s; `BulkheadProbeUser` added to verify 503 enforcement
+
+- **Docker multi-platform build** — image now built with `--platform linux/amd64` for ECS Fargate compatibility from Apple Silicon development machines
 
 ### Changed
 - **`POST /ingest/json`** now returns `202 Accepted` instead of `200 OK`
   - Response body changed from `{"message":"ok","records":N,"anomalies":N}` to `{"status":"queued","queued":N,"dropped":N}`
   - All processing (store write, anomaly detection, SSE broadcast) moved out of the request goroutine into background workers
-  - Ingest handler latency is now: JSON parse + queue write only — no longer blocked by SSE fan-out across all connected clients
+  - Ingest handler latency is now: JSON parse + queue write only — no longer blocked by SSE fan-out
 
 - **`POST /ingest`** (XML upload) updated to match — records are enqueued instead of processed synchronously; also returns `202 Accepted`
 
@@ -44,10 +53,10 @@ All notable changes to the fitness telemetry platform are documented here.
 ## [0.4.0] — 2026-03-30 (`10e8c24`)
 
 ### Added
-- Three load test experiments (`tests/locust/`, `tests/run_tests.go`)
-  - **Experiment 1** (`exp1_scaling.py`) — horizontal scaling: 90 users, 83 req/s, ECS task count 1→2→4; measures P95/P99 ingest latency vs task count
-  - **Experiment 2** (`run_tests.go`) — in-memory baseline: 150 sequential operations (50 ingest, 50 query, 50 stats) against the live ALB; establishes the performance ceiling before any persistence layer
-  - **Experiment 3** (`exp3_sse_fanout.py`) — SSE fan-out ceiling: 550 concurrent users (495 SSE clients + 55 anomaly drivers), chaos injection by halving ECS task count mid-test
+- Initial load test experiments (`tests/locust/`, `tests/run_tests.go`)
+  - **Experiment 1** (`exp1_scaling.py`) — horizontal scaling baseline: 90 users, ECS task count 1→2→4; P95/P99 ingest latency flat — identified split-brain in-memory state as ceiling, not compute
+  - **Experiment 2** (`run_tests.go`) — in-memory baseline: 150 sequential operations (50 ingest, 50 query, 50 stats); Stats() P99 701ms identified as O(n) scan concern; ingest success check incorrectly hardcoded HTTP 200 (fixed in Unreleased)
+  - **Experiment 3** (`exp3_sse_fanout.py`) — SSE fan-out ceiling: 550 concurrent users, 144 ALB idle-timeout failures (2.1%); chaos injection not captured; both issues resolved in Unreleased
 
 ---
 

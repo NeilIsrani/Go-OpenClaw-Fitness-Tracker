@@ -15,7 +15,7 @@ import (
 const (
 	workerCount = 10
 	queueBuffer = 1024
-	maxSSEClients = 500
+	maxSSEClients = 200
 )
 
 // IngestQueue decouples HTTP receipt from store/detect/broadcast.
