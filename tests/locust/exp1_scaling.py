@@ -1,19 +1,30 @@
 """
 Experiment 1 — Horizontal Scaling: Ingest Throughput vs ECS Task Count
 
-Goal: Hold ingest load at ~5,000 readings/minute while scaling ECS tasks 1→2→4→8.
-      Identify whether the bottleneck is compute (ECS), network (ALB), or state (Redis).
+Goal: Find the single-task CPU/memory ceiling by ramping users until latency breaks,
+      then determine whether adding ECS tasks improves throughput.
 
-Run:
+Run (step-load to find the ceiling — replaces the fixed 90-user run):
+    locust -f exp1_scaling.py --host http://<ALB_DNS> \
+           --run-time 18m \
+           --html results/exp1_stepload_t1.html
+
+The StepLoad shape ramps 100→200→300→400→500→600 users in 3-minute steps.
+The point where P95 breaks is the single-task ceiling.
+
+Original fixed-load run (still valid for cross-task comparison once ceiling is known):
     locust -f exp1_scaling.py --host http://<ALB_DNS> \
            --users 90 --spawn-rate 10 --run-time 5m \
-           --html results/exp1_t1.html
+           --class-picker \
+           --html results/exp1_fixed_t1.html
 
-Repeat with ECS task count = 1, 2, 4, 8. Compare HTML reports.
+Repeat with ECS task count = 1, 2, 4, 8 via:
+    terraform apply -var="ecs_count=N"
 
 User mix:
     IngestUser  (weight=7)  — POST synthetic readings  → drives ~83 req/s at 90 users
     ReadUser    (weight=3)  — GET metrics/stats/anomalies → background read load
+    StepLoad                — LoadTestShape: ramps 100→600 users in 3-min steps
 """
 
 import json
@@ -21,7 +32,7 @@ import random
 import time
 from datetime import datetime, timezone
 
-from locust import HttpUser, between, events, tag, task
+from locust import HttpUser, LoadTestShape, between, events, tag, task
 
 
 def hae_payload(metric_name: str, qty: float, unit: str) -> dict:
@@ -112,3 +123,33 @@ class ReadUser(HttpUser):
     @task(1)
     def read_strain(self):
         self.client.get("/strain", name="/strain")
+
+
+class StepLoad(LoadTestShape):
+    """
+    Ramps users in steps of 200 every 3 minutes up to 2000.
+    Use this shape to find the single-task CPU/memory ceiling.
+
+    The test stops automatically when max_users is reached and the
+    final step completes. Watch the Locust charts for the step where
+    P95 ingest latency breaks — that is the ceiling.
+
+    Run with:
+        locust -f exp1_scaling.py --host http://<ALB_DNS> --run-time 18m
+    Do NOT pass --users or --spawn-rate — StepLoad controls both.
+    """
+    step_users = 200       # add this many users per step
+    step_duration = 180    # hold each step for 3 minutes (seconds)
+    spawn_rate = 50        # users added per second during ramp
+    max_users = 2000
+
+    def tick(self):
+        run_time = self.get_run_time()
+        current_step = int(run_time // self.step_duration)
+        users = min((current_step + 1) * self.step_users, self.max_users)
+
+        # Stop after the final step completes
+        if run_time >= self.step_duration * (self.max_users // self.step_users):
+            return None
+
+        return (users, self.spawn_rate)
